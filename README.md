@@ -3,6 +3,7 @@
 ## Framework and libraries used:
 1. Vue.js (https://vuejs.org/)
 2. Vuetify (https://vuetifyjs.com/en/introduction/why-vuetify/)
+3. Vue tooling for VS Code: Vetur (https://vuejs.github.io/vetur/)
 
 ## API used 
 Just for testing purpose, will re replaced by actual API coming from backend of Inspirational-quote-api
