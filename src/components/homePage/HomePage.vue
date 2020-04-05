@@ -27,7 +27,7 @@
                     </v-row>
                     <div class="quote-content" v-html="quote.body"></div>
                     <v-row align="center" justify="center">
-                      <div class="subheading auther-content" v-html="'- ' + quote.author"></div>
+                      <div class="subheading author-content" v-html="'- ' + quote.author"></div>
                     </v-row>
                     <span class="my-4 subtitle-1" v-for="tag in quote.tags" :key="tag">
                       <v-icon small>mdi-tag</v-icon>

@@ -1,0 +1,13 @@
+// Like a Postman, you can directly run any HTTP methods
+
+GET https://favqs.com/api/qotd
+
+###
+
+POST https://jsonplaceholder.typicode.com/posts
+Content-Type: application/json
+
+{
+    "title": "New Post",
+    "body": "This is a new Post"
+}

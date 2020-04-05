@@ -3,42 +3,47 @@
 }
 
 .blue-yellow {
-  background-color: #52ACFF;
-  background-image: linear-gradient(180deg, #52ACFF 25%, #FFE32C 100%);
+  background-color: #52acff;
+  background-image: linear-gradient(180deg, #52acff 25%, #ffe32c 100%);
 }
 
 .orange-yellow {
-  background-color: #FFE53B;
-  background-image: linear-gradient(147deg, #FFE53B 0%, #FF2525 74%);
+  background-color: #ffe53b;
+  background-image: linear-gradient(147deg, #ffe53b 0%, #ff2525 74%);
 }
 
 .purple-blue {
-  background-color: #21D4FD;
-  background-image: linear-gradient(19deg, #21D4FD 0%, #B721FF 100%);
+  background-color: #21d4fd;
+  background-image: linear-gradient(19deg, #21d4fd 0%, #b721ff 100%);
 }
 
 .sky-blue {
-  background-color: #8EC5FC;
-  background-image: linear-gradient(62deg, #8EC5FC 0%, #E0C3FC 100%);
+  background-color: #8ec5fc;
+  background-image: linear-gradient(62deg, #8ec5fc 0%, #e0c3fc 100%);
 }
 
 .green-blue {
-  background-color: #FA8BFF;
-  background-image: linear-gradient(45deg, #FA8BFF 0%, #2BD2FF 52%, #2BFF88 90%);
+  background-color: #fa8bff;
+  background-image: linear-gradient(
+    45deg,
+    #fa8bff 0%,
+    #2bd2ff 52%,
+    #2bff88 90%
+  );
 }
 
 .pink {
-  background-color: #FFDEE9;
-  color: #FFDEE9;
-  background-image: linear-gradient(0deg, #FFDEE9 0%, #B5FFFC 100%);
+  background-color: #ffdee9;
+  color: #ffdee9;
+  background-image: linear-gradient(0deg, #ffdee9 0%, #b5fffc 100%);
 }
 
 .full-width {
-  width: 100%
+  width: 100%;
 }
 
 .progress-linear {
-  margin-top: 0
+  margin-top: 0;
 }
 
 .progress-linear-holder {
@@ -46,16 +51,17 @@
   width: 100%;
 }
 
-@import url('https://fonts.googleapis.com/css?family=Pacifico');
+@import url("https://fonts.googleapis.com/css?family=Cardo");
 .quote-content {
-  font-family: 'Pacifico', Arial, sans-serif;
+  font: 400 36px/1.4 "cardo";
+  font-style: italic;
   font-size: 2rem;
+  margin: 0 0 20px 0;
   line-height: normal;
 }
 
-.auther-content {
+.author-content {
   font-size: 1.2rem;
-  padding-right: 10px;
 }
 
 .fade-enter-active,
@@ -66,7 +72,6 @@
 .fade-enter,
 .fade-leave-to
 
-/* .fade-leave-active below version 2.1.8 */
-  {
+/* .fade-leave-active below version 2.1.8 */ {
   opacity: 0;
 }
