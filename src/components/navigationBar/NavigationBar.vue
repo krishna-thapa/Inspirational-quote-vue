@@ -1,17 +1,23 @@
 <template>
   <div>
-    <v-app-bar color="deep-purple accent-4" dense dark>
-      <v-toolbar app>
+    <v-app-bar color="primary" dense>
+      <v-toolbar>
         <v-app-bar-nav-icon class="hidden-sm-and-up" @click="sidebar = !sidebar"></v-app-bar-nav-icon>
-
         <v-toolbar-title>
-          <router-link to="/" tag="span" style="cursor: pointer">{{ appTitle }}</router-link>
+          <router-link to="/" tag="span" style="cursor: pointer" class="appTitle">
+          <v-icon large color="#5288c7">favorite</v-icon>
+          {{ appTitle }}
+          </router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
         <v-toolbar-items class="hidden-xs-only">
-          <v-btn flat v-for="item in menuItems" :key="item.title" :to="item.path">
-            <v-icon left dark>{{ item.icon }}</v-icon>
-            {{ item.title }}
+          <v-btn icon v-for="item in menuItems" :key="item.title" :to="item.path" class="mx-2">
+            <v-tooltip bottom>
+              <template v-slot:activator="{ on }">
+                <v-icon dark v-on="on">{{ item.icon }}</v-icon>
+              </template>
+              <span>{{ item.title }}</span>
+            </v-tooltip>
           </v-btn>
         </v-toolbar-items>
       </v-toolbar>
@@ -25,7 +31,7 @@
         </v-list-item-avatar>
 
         <v-list-item-content>
-          <v-list-item-title>John Leider</v-list-item-title>
+          <v-list-item-title>Krishna Thapa</v-list-item-title>
         </v-list-item-content>
       </v-list-item>
 
@@ -54,7 +60,7 @@ export default {
       sidebar: false,
       menuItems: [
         { title: "Home", path: "/home", icon: "home" },
-        { title: "Search", path: "/home", icon: "mdi-magnify" },
+        { title: "Search", path: "/search", icon: "mdi-magnify" },
         { title: "Sign Up", path: "/signup", icon: "face" },
         { title: "Sign In", path: "/signin", icon: "lock_open" }
       ]
@@ -64,4 +70,12 @@ export default {
 </script>
 
 <style>
+@import url('https://fonts.googleapis.com/css?family=Grand+Hotel');
+
+.appTitle {
+  font-size: 1.7em;
+  font-weight: 550;
+  font-family: 'Grand Hotel', sans-serif;
+  color: #5288c7;
+}
 </style>

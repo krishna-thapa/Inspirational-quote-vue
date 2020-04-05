@@ -1,9 +1,9 @@
 <template>
-  <div id="homepage">
+  <div>
     <v-content :class="selectedBackground">
-      <v-container fill-height>
+      <v-container class="fill-height">
         <v-layout row justify-center align-center>
-          <v-flex xs6 sm6>
+          <v-flex xs7 sm7>
             <v-card class="full-width" style="min-height: 250px;">
               <div class="progress-linear-holder absolute">
                 <v-progress-linear v-show="loader" :indeterminate="true"></v-progress-linear>
@@ -19,23 +19,44 @@
                     :class="selectedBackground"
                     @click.stop="refreshQuote"
                   >
-                    <v-icon>refresh</v-icon>
+                    <v-icon>mdi-refresh</v-icon>
                   </v-btn>
                   <v-card-text class="grey--text">
-                    <v-icon large class="block center">format_quote</v-icon>
+                    <v-row align="center" justify="center">
+                      <v-icon large>format_quote</v-icon>
+                    </v-row>
                     <div class="quote-content" v-html="quote.body"></div>
-                    <div class="subheading right-align mb-0" v-html="'- ' + quote.author"></div>
+                    <v-row align="center" justify="center">
+                      <div class="subheading auther-content" v-html="'- ' + quote.author"></div>
+                    </v-row>
+                    <span class="my-4 subtitle-1" v-for="tag in quote.tags" :key="tag">
+                      <v-icon small>mdi-tag</v-icon>
+                      • {{ tag }}
+                    </span>
                   </v-card-text>
-                  <v-card-actions class="align-start">
-                    <v-btn
-                      flat
-                      icon
-                      color="light-blue darken-1"
-                      @click.stop="window.open('https://twitter.com/intent/tweet/?text='+quote.quote+'&hashtags=quotes,taha_azzabi');"
-                    >
-                      <v-icon>fab fa-twitter</v-icon>
-                    </v-btn>
-                    <v-switch label="Auto-Refreshing Quote" v-model="random"></v-switch>
+                  <v-card-actions>
+                    <v-list-item class="grow">
+                      <v-switch label="Auto-Refreshing Quote" v-model="random"></v-switch>
+                      <v-row align="center" justify="end">
+                        <v-icon class="mr-1">mdi-heart</v-icon>
+                        <span class="subheading mr-2">{{ quote.favorites_count }}</span>
+                        <span class="mr-1">·</span>
+                        <v-icon class="mr-1">mdi-thumb-up</v-icon>
+                        <span class="subheading mr-2">{{ quote.upvotes_count }}</span>
+                        <span class="mr-1">·</span>
+                        <v-icon class="mr-1">mdi-thumb-down</v-icon>
+                        <span class="subheading mr-2">{{ quote.downvotes_count }}</span>
+                        <span class="mr-1">·</span>
+                        <v-btn
+                          text
+                          icon
+                          color="light-blue darken-1"
+                          @click.stop="window.open('https://twitter.com/intent/tweet/?text='+quote.quote+'&hashtags=quotes,taha_azzabi');"
+                        >
+                          <v-icon class="mr-1" large>mdi-twitter</v-icon>
+                        </v-btn>
+                      </v-row>
+                    </v-list-item>
                   </v-card-actions>
                 </div>
               </transition>
@@ -46,14 +67,13 @@
       <p>fdgsdfgsdfg</p>
       <v-snackbar color="error" v-model="snackbar">
         {{ errorMessage }}
-        <v-btn dark flat @click.native="snackbar = false">Close</v-btn>
+        <v-btn dark text @click.native="snackbar = false">Close</v-btn>
       </v-snackbar>
     </v-content>
   </div>
 </template>
 
 <script>
-
 export default {
   name: "HomePage",
   data: () => ({
@@ -81,7 +101,7 @@ export default {
       this.$http
         .get("https://favqs.com/api/qotd")
         .then(response => {
-          this.quote = response.body.quote;   
+          this.quote = response.body.quote;
           this.loader = false;
         })
         .catch(error => {
