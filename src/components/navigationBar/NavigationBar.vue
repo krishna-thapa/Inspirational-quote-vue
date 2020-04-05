@@ -5,8 +5,8 @@
         <v-app-bar-nav-icon class="hidden-sm-and-up" @click="sidebar = !sidebar"></v-app-bar-nav-icon>
         <v-toolbar-title>
           <router-link to="/" tag="span" style="cursor: pointer" class="appTitle">
-          <v-icon large color="#5288c7">favorite</v-icon>
-          {{ appTitle }}
+            <v-icon large color="#5288c7">favorite</v-icon>
+            {{ appTitle }}
           </router-link>
         </v-toolbar-title>
         <v-spacer></v-spacer>
@@ -59,7 +59,7 @@ export default {
       appTitle: "Inspirational Quote",
       sidebar: false,
       menuItems: [
-        { title: "Home", path: "/home", icon: "home" },
+        { title: "Home", path: "/apiDemo/dictionaryApi", icon: "home" },
         { title: "Search", path: "/search", icon: "mdi-magnify" },
         { title: "Sign Up", path: "/signup", icon: "face" },
         { title: "Sign In", path: "/signin", icon: "lock_open" }
@@ -70,12 +70,12 @@ export default {
 </script>
 
 <style>
-@import url('https://fonts.googleapis.com/css?family=Grand+Hotel');
+@import url("https://fonts.googleapis.com/css?family=Grand+Hotel");
 
 .appTitle {
   font-size: 1.7em;
   font-weight: 550;
-  font-family: 'Grand Hotel', sans-serif;
+  font-family: "Grand Hotel", sans-serif;
   color: #5288c7;
 }
 </style>

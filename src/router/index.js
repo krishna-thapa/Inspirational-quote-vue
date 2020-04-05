@@ -1,21 +1,22 @@
-import Vue from "vue"
-import Router from "vue-router"
+import Vue from "vue";
+import Router from "vue-router";
 
 const routerOptions = [
-    { path: "/", component: "homePage/HomePage"},
-    { path: "*", component: "NotFound" }
+  { path: "/", component: "homePage/HomePage" },
+  { path: "/apiDemo", component: "api/apiExamples" },
+  { path: "*", component: "NotFound" },
 ];
 
-const routes = routerOptions.map(route => {
-    return {
-        ...route,
-        component: () => import(`../components/${route.component}.vue`)
-    };
+const routes = routerOptions.map((route) => {
+  return {
+    ...route,
+    component: () => import(`../components/${route.component}.vue`),
+  };
 });
 
 Vue.use(Router);
 
 export default new Router({
-    mode: "history",
-    routes
+  mode: "history",
+  routes,
 });
