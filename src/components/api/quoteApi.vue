@@ -47,6 +47,12 @@
         </v-card-actions>
       </div>
     </transition>
+    <div class="text-center ma-2">
+      <v-snackbar color="error" v-model="snackbar">
+        {{ errorMessage }}
+        <v-btn dark text @click.native="snackbar = false">Close</v-btn>
+      </v-snackbar>
+    </div>
   </v-card>
 </template>
 

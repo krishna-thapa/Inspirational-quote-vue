@@ -16,10 +16,6 @@
           </v-col>
         </v-row>
       </v-container>
-      <v-snackbar color="error" v-model="snackbar">
-        {{ errorMessage }}
-        <v-btn dark text @click.native="snackbar = false">Close</v-btn>
-      </v-snackbar>
     </v-content>
   </div>
 </template>
@@ -32,8 +28,6 @@ export default {
   name: "HomePage",
   components: { DictionaryApi, QuoteApi },
   data: () => ({
-    errorMessage: "",
-    snackbar: false,
     selectedBackground: "pink"
   }),
   methods: {
