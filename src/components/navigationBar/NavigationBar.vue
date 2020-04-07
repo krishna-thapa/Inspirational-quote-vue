@@ -4,12 +4,24 @@
       <v-toolbar>
         <v-app-bar-nav-icon class="hidden-sm-and-up" @click="sidebar = !sidebar"></v-app-bar-nav-icon>
         <v-toolbar-title>
-          <router-link to="/" tag="span" style="cursor: pointer" class="appTitle">
+          <router-link to="/" tag="span" style="cursor: pointer" class="app-title nav-text">
             <v-icon large color="#5288c7">favorite</v-icon>
             {{ appTitle }}
           </router-link>
         </v-toolbar-title>
-        <v-spacer></v-spacer>
+        <v-spacer />
+        <v-toolbar-title>
+          <div
+            @click="clicked"
+            class="clock-style d-none d-md-block nav-text"
+            :class="faded"
+            style="cursor: pointer"
+          >
+            <span v-if="Htime">{{ homeTime }}</span>
+            <span v-if="Atime">{{ awayTime }}</span>
+          </div>
+        </v-toolbar-title>
+        <v-spacer />
         <v-toolbar-items class="hidden-xs-only">
           <v-btn icon v-for="item in menuItems" :key="item.title" :to="item.path" class="mx-2">
             <v-tooltip bottom>
@@ -50,9 +62,11 @@
       </v-list>
     </v-navigation-drawer>
   </div>
-</template>
+</template>https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg
 
 <script>
+import moment from "moment-timezone";
+
 export default {
   data() {
     return {
@@ -63,8 +77,32 @@ export default {
         { title: "Search", path: "/search", icon: "mdi-magnify" },
         { title: "Sign Up", path: "/signup", icon: "face" },
         { title: "Sign In", path: "/signin", icon: "lock_open" }
-      ]
+      ],
+      Htime: true,
+      Atime: false,
+      faded: "",
+      homeTime: moment.tz(moment(), "Europe/London").format("llll UK"),
+      awayTime: moment.tz(moment(), "Asia/Kathmandu").format("llll NP")
     };
+  },
+  methods: {
+    clicked() {
+      if (this.Htime) {
+        (this.faded = "faded"),
+          setTimeout(() => {
+            this.faded = "";
+            this.Htime = false;
+            this.Atime = true;
+          }, 200);
+      } else if (this.Atime) {
+        (this.faded = "faded"),
+          setTimeout(() => {
+            this.faded = "";
+            this.Atime = false;
+            this.Htime = true;
+          }, 200);
+      }
+    }
   }
 };
 </script>
@@ -72,10 +110,23 @@ export default {
 <style>
 @import url("https://fonts.googleapis.com/css?family=Grand+Hotel");
 
-.appTitle {
+.app-title {
   font-size: 1.7em;
   font-weight: 550;
+}
+
+.clock-style {
+  text-align: center;
+  font-size: 1.2em;
+}
+
+.nav-text {
   font-family: "Grand Hotel", sans-serif;
   color: #5288c7;
+}
+
+.faded {
+  opacity: 0;
+  transition: 0.2s;
 }
 </style>

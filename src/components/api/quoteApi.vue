@@ -1,5 +1,5 @@
 <template>
-  <v-card class="full-width" style="min-height: 250px;">
+  <v-card dark class="full-width" style="min-height: 250px;">
     <div class="progress-linear-holder absolute">
       <v-progress-linear v-show="loader" :indeterminate="true"></v-progress-linear>
     </div>
@@ -8,43 +8,45 @@
         <v-btn absolute dark fab top right :class="selectedBackground" @click.stop="refreshQuote">
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
-        <v-card-text class="grey--text">
-          <v-row align="center" justify="center">
-            <v-icon large>format_quote</v-icon>
-          </v-row>
-          <div class="quote-content" v-html="quote.body"></div>
-          <v-row align="center" justify="center">
-            <div class="subheading author-content" v-html="'- ' + quote.author"></div>
-          </v-row>
-          <span class="my-4 subtitle-1" v-for="tag in quote.tags" :key="tag">
-            <v-icon small>mdi-tag</v-icon>
-            • {{ tag }}
-          </span>
-        </v-card-text>
-        <v-card-actions>
-          <v-list-item class="grow">
-            <v-switch label="Auto-Refreshing Quote" v-model="random"></v-switch>
-            <v-row align="center" justify="end">
-              <v-icon class="mr-1">mdi-heart</v-icon>
-              <span class="subheading mr-2">{{ quote.favorites_count }}</span>
-              <span class="mr-1">·</span>
-              <v-icon class="mr-1">mdi-thumb-up</v-icon>
-              <span class="subheading mr-2">{{ quote.upvotes_count }}</span>
-              <span class="mr-1">·</span>
-              <v-icon class="mr-1">mdi-thumb-down</v-icon>
-              <span class="subheading mr-2">{{ quote.downvotes_count }}</span>
-              <span class="mr-1">·</span>
-              <v-btn
-                text
-                icon
-                color="light-blue darken-1"
-                @click.stop="window.open('https://twitter.com/intent/tweet/?text='+quote.quote+'&hashtags=quotes,taha_azzabi');"
-              >
-                <v-icon class="mr-1" large>mdi-twitter</v-icon>
-              </v-btn>
+        <v-img
+          class="white--text"
+          src="@/assets/pictures/Pokhara.jpg"
+          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          :aspect-ratio="16/3"
+        >
+          <v-card-text dark class="white--text">
+            <v-row align="center" justify="center">
+              <v-icon large>format_quote</v-icon>
             </v-row>
-          </v-list-item>
-        </v-card-actions>
+            <div class="quote-content" v-html="quote.body"></div>
+            <v-row align="center" justify="center">
+              <div class="subheading author-content" v-html="'- ' + quote.author"></div>
+            </v-row>
+            <span class="my-4 subtitle-1" v-for="tag in quote.tags" :key="tag">
+              <v-icon small>mdi-tag</v-icon>
+              • {{ tag }}
+            </span>
+          </v-card-text>
+          <v-card-actions>
+            <v-list-item class="grow">
+              <v-switch label="Auto-Refreshing Quote" v-model="random"></v-switch>
+              <v-row align="center" justify="end">
+                <v-icon class="mr-1">mdi-heart</v-icon>
+                <span class="subheading mr-2">{{ quote.favorites_count }}</span>
+                <span class="mr-1">·</span>
+                <v-icon class="mr-1">mdi-thumb-up</v-icon>
+                <span class="subheading mr-2">{{ quote.upvotes_count }}</span>
+                <span class="mr-1">·</span>
+                <v-icon class="mr-1">mdi-thumb-down</v-icon>
+                <span class="subheading mr-2">{{ quote.downvotes_count }}</span>
+                <span class="mr-1">·</span>
+                <v-btn text icon color="light-blue darken-1" @click.stop="postOnTwitter()">
+                  <v-icon class="mr-1" large>mdi-twitter</v-icon>
+                </v-btn>
+              </v-row>
+            </v-list-item>
+          </v-card-actions>
+        </v-img>
       </div>
     </transition>
     <div class="text-center ma-2">
@@ -111,6 +113,14 @@ export default {
     clearRandomQuote() {
       this.random = false;
       clearInterval(this.randomQuote);
+    },
+    postOnTwitter() {
+      window.open(
+        "https://twitter.com/intent/tweet/?text=" +
+          this.quote.body +
+          "&hashtags=" +
+          this.quote.tags
+      );
     }
   },
   created() {
