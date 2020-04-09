@@ -4,6 +4,7 @@ import Router from "vue-router";
 const routerOptions = [
   { path: "/", component: "homePage/HomePage" },
   { path: "/apiDemo", component: "api/apiExamples" },
+  { path: "/signAccount", component: "auth/SignAccount" },
   { path: "*", component: "NotFound" },
 ];
 
