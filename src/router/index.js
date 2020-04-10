@@ -6,13 +6,13 @@ const routerOptions = [
   { path: "/apiDemo", component: "api/apiExamples" },
   { path: "/signAccount", component: "auth/SignAccount" },
   { path: "/todo", component: "todo/Todo" },
-  { path: "*", component: "NotFound" },
+  { path: "*", component: "NotFound" }
 ];
 
-const routes = routerOptions.map((route) => {
+const routes = routerOptions.map(route => {
   return {
     ...route,
-    component: () => import(`../components/${route.component}.vue`),
+    component: () => import(`../components/${route.component}.vue`)
   };
 });
 
@@ -20,5 +20,5 @@ Vue.use(Router);
 
 export default new Router({
   mode: "history",
-  routes,
+  routes
 });
