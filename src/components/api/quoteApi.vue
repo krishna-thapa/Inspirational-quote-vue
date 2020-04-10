@@ -10,7 +10,7 @@
         </v-btn>
         <v-img
           class="white--text"
-          src="@/assets/pictures/Pokhara.jpg"
+          :src="imgSource"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
           :aspect-ratio="16/3"
         >
@@ -59,6 +59,8 @@
 </template>
 
 <script>
+import { mapState, mapMutations } from "vuex";
+
 export default {
   name: "QuoteApi",
   data: () => ({
@@ -68,28 +70,13 @@ export default {
     errorMessage: "",
     randomQuote: "",
     snackbar: false,
-    backgrounds: [
-      "blue-yellow",
-      "orange-yellow",
-      "purple-blue",
-      "sky-blue",
-      "green-blue",
-      "pink"
-    ],
-    selectedBackground: ""
+    imgSource: require("@/assets/pictures/Pokhara.jpg")
   }),
-  // props validation: pass props from parent to child
-  props: {
-    background: {
-      type: String,
-      required: true,
-      default: "pink"
-    }
-  },
-  mounted() {
-    this.selectedBackground = this.background; // props should not effected directly
+  computed: {
+    ...mapState(["selectedBackground", "backgrounds"])
   },
   methods: {
+    ...mapMutations(["UPDATE_BACKGROUND"]),
     refreshQuote() {
       this.quote = "";
       this.randomBackground();
@@ -106,9 +93,9 @@ export default {
         });
     },
     randomBackground() {
-      this.selectedBackground = this.backgrounds[
-        Math.floor(Math.random() * this.backgrounds.length)
-      ];
+      this.UPDATE_BACKGROUND(
+        this.backgrounds[Math.floor(Math.random() * this.backgrounds.length)]
+      );
     },
     clearRandomQuote() {
       this.random = false;
@@ -134,13 +121,6 @@ export default {
         this.randomQuote = setInterval(this.refreshQuote, 9000);
       } else {
         this.clearRandomQuote();
-      }
-    },
-    // emit event from child to parent
-    selectedBackground: function(newBackground) {
-      let success = true;
-      if (success) {
-        this.$emit("backgroundUpdated", newBackground);
       }
     }
   }

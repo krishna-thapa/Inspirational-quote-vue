@@ -1,17 +1,14 @@
 <template>
   <div>
-    <v-content :class="selectedBackground">
+    <v-content>
       <v-container class="fill-height">
         <v-row>
           <v-col cols="12">
-            <QuoteApi
-              v-bind:background="selectedBackground"
-              v-on:backgroundUpdated="updateBackground"
-            />
+            <QuoteApi />
           </v-col>
           <v-col cols="12">
             <DictionaryApi>
-              <h2>{{ selectedBackground }}</h2>
+              <h2>dfg</h2>
             </DictionaryApi>
           </v-col>
         </v-row>
@@ -27,15 +24,7 @@ import QuoteApi from "../api/quoteApi";
 export default {
   name: "HomePage",
   components: { DictionaryApi, QuoteApi },
-  data: () => ({
-    selectedBackground: "pink"
-  }),
-  methods: {
-    // get the emitted value from child
-    updateBackground(newBackground) {
-      this.selectedBackground = newBackground;
-    }
-  }
+  data: () => ({})
 };
 </script>
 

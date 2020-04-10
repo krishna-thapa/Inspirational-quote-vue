@@ -6,6 +6,8 @@ import "material-design-icons/iconfont/material-icons.css";
 import "@fortawesome/fontawesome-free/css/all.css";
 import router from "./router";
 
+import store from "./store";
+
 Vue.config.productionTip = false;
 
 Vue.use(VueResource);
@@ -13,5 +15,6 @@ Vue.use(VueResource);
 new Vue({
   vuetify,
   router,
+  store,
   render: (h) => h(App),
 }).$mount("#app");
