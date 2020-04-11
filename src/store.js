@@ -56,11 +56,13 @@ export default new Vuex.Store({
     editTodo({ commit }, { todo, value }) {
       commit("EDIT_TODO", { todo, text: value });
     },
+    // haven't used this one yet
     toggleAll({ state, commit }, done) {
       state.todos.forEach(todo => {
         commit("EDIT_TODO", { todo, done });
       });
     },
+    // haven't used this one yet
     clearCompleted({ state, commit }) {
       state.todos
         .filter(todo => todo.done)

@@ -38,37 +38,45 @@
           <v-list-item :key="`${i}-${item.text}`">
             <v-list-item-action>
               <v-checkbox
-                v-model="item.done"
+                :input-value="item.done"
                 @change="toggleTodo(item)"
                 :color="(item.done && 'grey') || 'primary'"
-                v-if="!editing"
               >
-                <template v-if="!editing" v-slot:label>
+                <template v-slot:label>
                   <div
                     :class="(item.done && 'grey--text') || 'primary--text'"
                     class="ml-4"
                     v-text="item.text"
-                    @dblclick="editing = true"
                   ></div>
                 </template>
               </v-checkbox>
-              <v-icon color="primary" v-else>edit</v-icon>
             </v-list-item-action>
 
             <v-spacer></v-spacer>
 
+            <v-dialog persistent v-model="editing" max-width="240">
+              <v-card>
+                <v-card-title>Edit Item:</v-card-title>
+                <v-card-text>
+                  <v-text-field :value="item.text"></v-text-field>
+                </v-card-text>
+                <v-card-actions>
+                  <v-spacer></v-spacer>
+                  <v-btn color="cyan" @click="editing = false">
+                    Cancel
+                  </v-btn>
+                  <v-btn color="cyan" @click="doneEdit(item)">
+                    OK
+                  </v-btn>
+                </v-card-actions>
+              </v-card>
+            </v-dialog>
+
             <v-scroll-x-transition>
-              <v-icon v-if="item.done" color="success">
-                check
-              </v-icon>
+              <v-icon @click="editing = true">edit</v-icon>
             </v-scroll-x-transition>
             <v-scroll-x-transition>
-              <v-icon
-                slot="activator"
-                v-if="item.done"
-                color="error"
-                @click="removeTodo(item)"
-              >
+              <v-icon slot="activator" color="error" @click="removeTodo(item)">
                 close
               </v-icon>
             </v-scroll-x-transition>
@@ -106,7 +114,21 @@ export default {
     }
   },
   methods: {
-    ...mapActions(["toggleTodo", "removeTodo"])
+    ...mapActions(["toggleTodo", "removeTodo", "editTodo"]),
+    doneEdit(e) {
+      console.log(e);
+      const value = e.target.value.trim();
+      const { todo } = this;
+      if (!value) {
+        this.removeTodo(todo);
+      } else if (this.editing) {
+        this.editTodo({
+          todo,
+          value
+        });
+        this.editing = false;
+      }
+    }
   }
 };
 </script>
