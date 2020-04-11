@@ -1,27 +1,22 @@
 <template>
-  <v-form ref="form">
-    <v-text-field
-      v-model="newTodoTitle"
-      :error-messages="errors.collect('newTodoTitle')"
-      name="newTodoTitle"
-      counter="25"
-      data-vv-as="Todo"
-      color="cyan"
-      label="What to do?"
-      @keydown.enter.prevent="addTodo"
-      :rules="rules"
-      ref="field"
-      append-outer-icon="add"
-      @click:append-outer="addTodo"
-      clearable
-      hide-details="auto"
-    />
-  </v-form>
+  <v-text-field
+    v-model="newTodoTitle"
+    name="newTodoTitle"
+    counter="50"
+    label="What's your dream?"
+    @keydown.enter.prevent="addTodo"
+    :rules="rules"
+    solo
+  >
+    <v-fade-transition slot="append">
+      <v-icon v-if="newTodoTitle" @click="addTodo">add_circle</v-icon>
+    </v-fade-transition>
+  </v-text-field>
 </template>
 
 <script>
 export default {
-  name: "AddItemField",
+  name: "AddItemFieldaddTodo",
   data() {
     return {
       newTodoTitle: "",
@@ -31,7 +26,6 @@ export default {
             .length === 0
       },
       rules: [
-        value => !!value || "Required.",
         v => (v != null && v.length <= 25) || "Max 25 characters",
         value =>
           this.isValid.unique((value || "").trim()) ||
@@ -41,23 +35,10 @@ export default {
   },
   methods: {
     addTodo() {
-      this.$validator.validateAll();
-      if (
-        this.isVeeValidationPassed() &&
-        this.isValid.unique(this.newTodoTitle)
-      ) {
+      if (this.newTodoTitle) {
         this.$store.dispatch("addTodo", this.newTodoTitle.trim());
-        this.newTodoTitle = "";
-        this.$refs.field.blur();
-        this.$validator.reset();
-        this.$refs.form.reset();
       }
-    },
-    isVeeValidationPassed() {
-      return Object.values(this.fields).reduce(
-        (valid, field) => valid && field.valid,
-        true
-      );
+      this.newTodoTitle = null;
     }
   }
 };
