@@ -5,7 +5,7 @@ const routerOptions = [
   { path: "/", component: "homePage/HomePage" },
   { path: "/apiDemo", component: "api/apiExamples" },
   { path: "/signAccount", component: "auth/SignAccount" },
-  { path: "/todo", component: "todo/Todo" },
+  { path: "/todo", component: "todo/TodoList" },
   { path: "*", component: "NotFound" }
 ];
 

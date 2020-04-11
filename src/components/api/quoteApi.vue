@@ -1,18 +1,29 @@
 <template>
   <v-card dark class="full-width" style="min-height: 250px;">
     <div class="progress-linear-holder absolute">
-      <v-progress-linear v-show="loader" :indeterminate="true"></v-progress-linear>
+      <v-progress-linear
+        v-show="loader"
+        :indeterminate="true"
+      ></v-progress-linear>
     </div>
     <transition name="fade">
       <div v-if="quote">
-        <v-btn absolute dark fab top right :class="selectedBackground" @click.stop="refreshQuote">
+        <v-btn
+          absolute
+          dark
+          fab
+          top
+          right
+          :class="selectedBackground"
+          @click.stop="refreshQuote"
+        >
           <v-icon>mdi-refresh</v-icon>
         </v-btn>
         <v-img
           class="white--text"
           :src="imgSource"
           gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
-          :aspect-ratio="16/3"
+          :aspect-ratio="16 / 3"
         >
           <v-card-text dark class="white--text">
             <v-row align="center" justify="center">
@@ -20,7 +31,10 @@
             </v-row>
             <div class="quote-content" v-html="quote.body"></div>
             <v-row align="center" justify="center">
-              <div class="subheading author-content" v-html="'- ' + quote.author"></div>
+              <div
+                class="subheading author-content"
+                v-html="'- ' + quote.author"
+              ></div>
             </v-row>
             <span class="my-4 subtitle-1" v-for="tag in quote.tags" :key="tag">
               <v-icon small>mdi-tag</v-icon>
@@ -29,7 +43,10 @@
           </v-card-text>
           <v-card-actions>
             <v-list-item class="grow">
-              <v-switch label="Auto-Refreshing Quote" v-model="random"></v-switch>
+              <v-switch
+                label="Auto-Refreshing Quote"
+                v-model="random"
+              ></v-switch>
               <v-row align="center" justify="end">
                 <v-icon class="mr-1">mdi-heart</v-icon>
                 <span class="subheading mr-2">{{ quote.favorites_count }}</span>
@@ -40,7 +57,12 @@
                 <v-icon class="mr-1">mdi-thumb-down</v-icon>
                 <span class="subheading mr-2">{{ quote.downvotes_count }}</span>
                 <span class="mr-1">·</span>
-                <v-btn text icon color="light-blue darken-1" @click.stop="postOnTwitter()">
+                <v-btn
+                  text
+                  icon
+                  color="light-blue darken-1"
+                  @click.stop="postOnTwitter()"
+                >
                   <v-icon class="mr-1" large>mdi-twitter</v-icon>
                 </v-btn>
               </v-row>
@@ -127,5 +149,4 @@ export default {
 };
 </script>
 
-<style scoped src="@/assets/styles/background.css">
-</style>
+<style scoped src="@/assets/styles/background.css"></style>

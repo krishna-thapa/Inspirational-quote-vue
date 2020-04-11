@@ -10,7 +10,9 @@
                   <v-card-text class="mt-8">
                     <h1
                       class="text-center display-2 light-blue--text text--laccent-4"
-                    >Sign in to Wonderland</h1>
+                    >
+                      Sign in to Wonderland
+                    </h1>
                     <div class="text-center" mt-4>
                       <v-btn class="mx-2" fab color="black" outlined>
                         <v-icon>fab fa-facebook-f</v-icon>
@@ -19,7 +21,9 @@
                         <v-icon>fab fa-google-plus-g</v-icon>
                       </v-btn>
                     </div>
-                    <h4 class="text-center mlt-4">Ensure your email for registration</h4>
+                    <h4 class="text-center mlt-4">
+                      Ensure your email for registration
+                    </h4>
                     <v-form>
                       <v-text-field
                         name="Email"
@@ -40,13 +44,17 @@
                     <h3 class="text-center mt-3">Forget your password?</h3>
                   </v-card-text>
                   <div class="text-center mt-3">
-                    <v-btn rounded color="light-blue laccent-4" dark>SIGN IN</v-btn>
+                    <v-btn rounded color="light-blue laccent-4" dark
+                      >SIGN IN</v-btn
+                    >
                   </div>
                 </v-col>
                 <v-col cols="12" md="4" class="background-color">
                   <v-card-text class="white--text mt-8">
                     <h1 class="text-center display-1">Welcome to Wonderland</h1>
-                    <h5 class="text-center">Enter your personal details and see the secrets.</h5>
+                    <h5 class="text-center">
+                      Enter your personal details and see the secrets.
+                    </h5>
                   </v-card-text>
                   <div class="text-center">
                     <v-btn rounded outlined dark @click="step++">SIGN UP</v-btn>
@@ -59,7 +67,9 @@
                 <v-col cols="12" md="4" class="background-color">
                   <v-card-text class="white--text mt-8">
                     <h1 class="text-center display-1">Welcome Back!</h1>
-                    <h5 class="text-center">To see the wonders please login with your personal info</h5>
+                    <h5 class="text-center">
+                      To see the wonders please login with your personal info
+                    </h5>
                   </v-card-text>
                   <div class="text-center">
                     <v-btn rounded outlined dark @click="step--">SIGN IN</v-btn>
@@ -69,7 +79,9 @@
                   <v-card-text class="mt-8">
                     <h1
                       class="text-center display-2 light-blue--text text--laccent-4"
-                    >Create Account</h1>
+                    >
+                      Create Account
+                    </h1>
                     <div class="text-center mt-4">
                       <v-btn class="mx-2" fab color="black" outlined>
                         <v-icon>fab fa-facebook-f</v-icon>
@@ -78,7 +90,9 @@
                         <v-icon>fab fa-google-plus-g</v-icon>
                       </v-btn>
                     </div>
-                    <h4 class="text-center mt-4">Ensure your email for registration</h4>
+                    <h4 class="text-center mt-4">
+                      Ensure your email for registration
+                    </h4>
                     <v-form>
                       <v-text-field
                         name="Name"
@@ -105,7 +119,9 @@
                     </v-form>
                   </v-card-text>
                   <div class="text-center mt-n5">
-                    <v-btn rounded color="light-blue laccent-4" dark>SIGN UP</v-btn>
+                    <v-btn rounded color="light-blue laccent-4" dark
+                      >SIGN UP</v-btn
+                    >
                   </div>
                 </v-col>
               </v-row>

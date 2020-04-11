@@ -5,15 +5,6 @@ Vue.use(Vuex);
 
 const STORAGE_KEY = "todos-db";
 
-//Vuex stores accept the plugins option that exposes hooks for each mutation
-const plugin = store => {
-  // called when the store is initialized
-  store.subscribe((mutation, { todos }) => {
-    // called after every mutation.
-    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
-  });
-};
-
 export default new Vuex.Store({
   state: {
     backgrounds: [
@@ -78,5 +69,14 @@ export default new Vuex.Store({
         });
     }
   },
-  plugins: [plugin]
+  //Vuex stores accept the plugins option that exposes hooks for each mutation
+  plugins: [
+    store => {
+      // called when the store is initialized
+      store.subscribe((mutation, { todos }) => {
+        // called after every mutation.
+        window.localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
+      });
+    }
+  ]
 });
