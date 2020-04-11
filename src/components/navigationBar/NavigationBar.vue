@@ -2,17 +2,9 @@
   <div>
     <v-app-bar color="light-blue accent-4" dense>
       <v-toolbar>
-        <v-app-bar-nav-icon
-          class="hidden-sm-and-up"
-          @click="sidebar = !sidebar"
-        ></v-app-bar-nav-icon>
+        <v-app-bar-nav-icon class="hidden-sm-and-up" @click="sidebar = !sidebar"></v-app-bar-nav-icon>
         <v-toolbar-title>
-          <router-link
-            to="/"
-            tag="span"
-            style="cursor: pointer"
-            class="app-title nav-text"
-          >
+          <router-link to="/" tag="span" style="cursor: pointer" class="app-title nav-text">
             <v-icon large color="light-blue accent-4">favorite</v-icon>
             {{ appTitle }}
           </router-link>
@@ -31,13 +23,7 @@
         </v-toolbar-title>
         <v-spacer />
         <v-toolbar-items class="hidden-xs-only">
-          <v-btn
-            icon
-            v-for="item in menuItems"
-            :key="item.title"
-            :to="item.path"
-            class="mx-2"
-          >
+          <v-btn icon v-for="item in menuItems" :key="item.title" :to="item.path" class="mx-2">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
                 <v-icon dark v-on="on">{{ item.icon }}</v-icon>
@@ -64,11 +50,7 @@
       <v-divider></v-divider>
 
       <v-list dense>
-        <v-list-item
-          v-for="item in menuItems"
-          :key="item.title"
-          :to="item.path"
-        >
+        <v-list-item v-for="item in menuItems" :key="item.title" :to="item.path">
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
@@ -79,8 +61,8 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-  </div> </template
->https://cdn.vuetifyjs.com/images/backgrounds/vbanner.jpg
+  </div>
+</template>
 
 <script>
 import moment from "moment-timezone";
@@ -94,13 +76,13 @@ export default {
         { title: "Home", path: "/apiDemo/dictionaryApi", icon: "home" },
         { title: "Search", path: "/search", icon: "mdi-magnify" },
         { title: "Sign Up", path: "/signAccount", icon: "face" },
-        { title: "To-Do List", path: "/todo", icon: "fa-list-ul" },
+        { title: "To-Do List", path: "/todo", icon: "fa-list-ul" }
       ],
       Htime: true,
       Atime: false,
       faded: "",
       homeTime: moment.tz(moment(), "Europe/London").format("llll UK"),
-      awayTime: moment.tz(moment(), "Asia/Kathmandu").format("llll NP"),
+      awayTime: moment.tz(moment(), "Asia/Kathmandu").format("llll NP")
     };
   },
   methods: {
@@ -120,8 +102,8 @@ export default {
             this.Htime = true;
           }, 200);
       }
-    },
-  },
+    }
+  }
 };
 </script>
 

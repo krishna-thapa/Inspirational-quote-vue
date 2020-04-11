@@ -26,7 +26,7 @@ export default {
             .length === 0
       },
       rules: [
-        v => (v != null && v.length <= 25) || "Max 25 characters",
+        v => (v != null && v.length <= 50) || "Max 50 characters",
         value =>
           this.isValid.unique((value || "").trim()) ||
           `The todo is already in the list` // TODO: Not working atm

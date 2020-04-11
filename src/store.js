@@ -13,10 +13,10 @@ export default new Vuex.Store({
       "purple-blue",
       "sky-blue",
       "green-blue",
-      "pink"
+      "pink",
     ],
     selectedBackground: "pink",
-    todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]")
+    todos: JSON.parse(window.localStorage.getItem(STORAGE_KEY) || "[]"),
   },
   getters: {},
   mutations: {
@@ -32,7 +32,7 @@ export default new Vuex.Store({
     EDIT_TODO(state, { todo, text = todo.text, done = todo.done }) {
       todo.text = text;
       todo.done = done;
-    }
+    },
   },
   /*
   Actions are similar to mutations, the differences being that:
@@ -44,7 +44,7 @@ export default new Vuex.Store({
       commit("ADD_TODO", {
         uid: Date.now(),
         text,
-        done: false
+        done: false,
       });
     },
     removeTodo({ commit }, todo) {
@@ -58,27 +58,27 @@ export default new Vuex.Store({
     },
     // haven't used this one yet
     toggleAll({ state, commit }, done) {
-      state.todos.forEach(todo => {
+      state.todos.forEach((todo) => {
         commit("EDIT_TODO", { todo, done });
       });
     },
     // haven't used this one yet
     clearCompleted({ state, commit }) {
       state.todos
-        .filter(todo => todo.done)
-        .forEach(todo => {
+        .filter((todo) => todo.done)
+        .forEach((todo) => {
           commit("REMOVE_TODO", todo);
         });
-    }
+    },
   },
   //Vuex stores accept the plugins option that exposes hooks for each mutation
   plugins: [
-    store => {
+    (store) => {
       // called when the store is initialized
       store.subscribe((mutation, { todos }) => {
         // called after every mutation.
         window.localStorage.setItem(STORAGE_KEY, JSON.stringify(todos));
       });
-    }
-  ]
+    },
+  ],
 });

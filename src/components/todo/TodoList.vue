@@ -13,26 +13,36 @@
         <AddItemField />
         <v-divider class="mt-3"></v-divider>
         <v-row class="my-1" align="center">
-          <strong class="mx-3 info--text text--darken-3">
-            All: {{ todos.length }}
-          </strong>
+          <strong class="mx-3 info--text text--darken-3">All: {{ todos.length }}</strong>
           <v-divider vertical></v-divider>
-          <strong class="mx-3 info--text text--darken-3">
-            Remaining: {{ remainingTasks }}
-          </strong>
+          <strong class="mx-3 info--text text--darken-3">Remaining: {{ remainingTasks }}</strong>
           <v-divider vertical></v-divider>
-          <strong class="mx-3 black--text">
-            Completed: {{ completedTasks }}
-          </strong>
+          <strong class="mx-3 black--text">Completed: {{ completedTasks }}</strong>
           <v-spacer></v-spacer>
-          <v-progress-circular
-            :value="progress"
-            class="mr-2"
-          ></v-progress-circular>
+          <v-progress-circular :value="progress" color="#0091ea" class="mr-6"></v-progress-circular>
         </v-row>
 
         <v-divider class="mb-3"></v-divider>
-
+        <v-dialog persistent v-model="editing" max-width="400" :data="modalData">
+          <v-card>
+            <v-card-title>Edit Item:</v-card-title>
+            <v-card-text>
+              <v-text-field
+                :value="modalData.text"
+                v-model="editedText"
+                clearable
+                color="primary"
+                counter="50"
+                :rules="rules"
+              ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="cyan" @click="cancelItem()">Cancel</v-btn>
+              <v-btn color="cyan" @click="editTodo(editedText)">OK</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
         <template v-for="(item, i) in todos">
           <v-divider v-if="i !== 0" :key="`${i}-divider`"></v-divider>
           <v-list-item :key="`${i}-${item.text}`">
@@ -54,31 +64,11 @@
 
             <v-spacer></v-spacer>
 
-            <v-dialog persistent v-model="editing" max-width="240">
-              <v-card>
-                <v-card-title>Edit Item:</v-card-title>
-                <v-card-text>
-                  <v-text-field :value="item.text"></v-text-field>
-                </v-card-text>
-                <v-card-actions>
-                  <v-spacer></v-spacer>
-                  <v-btn color="cyan" @click="editing = false">
-                    Cancel
-                  </v-btn>
-                  <v-btn color="cyan" @click="doneEdit(item)">
-                    OK
-                  </v-btn>
-                </v-card-actions>
-              </v-card>
-            </v-dialog>
-
             <v-scroll-x-transition>
-              <v-icon @click="editing = true">edit</v-icon>
+              <v-icon class="mr-4" color="green darken-2" @click="openModal(item)">edit</v-icon>
             </v-scroll-x-transition>
             <v-scroll-x-transition>
-              <v-icon slot="activator" color="error" @click="removeTodo(item)">
-                close
-              </v-icon>
+              <v-icon slot="activator" color="error" @click="removeTodo(item)">mdi-delete</v-icon>
             </v-scroll-x-transition>
           </v-list-item>
         </template>
@@ -94,7 +84,10 @@ import { mapActions } from "vuex";
 export default {
   name: "TodoList",
   data: () => ({
-    editing: false
+    editing: false,
+    modalData: "",
+    editedText: "",
+    rules: [v => (v != null && v.length <= 50) || "Max 50 characters"]
   }),
   components: {
     AddItemField
@@ -115,19 +108,23 @@ export default {
   },
   methods: {
     ...mapActions(["toggleTodo", "removeTodo", "editTodo"]),
-    doneEdit(e) {
-      console.log(e);
-      const value = e.target.value.trim();
-      const { todo } = this;
-      if (!value) {
-        this.removeTodo(todo);
-      } else if (this.editing) {
-        this.editTodo({
-          todo,
-          value
-        });
-        this.editing = false;
-      }
+    doneEdit(item) {
+      const text = this.editedText.trim();
+      console.log(item);
+      this.editTodo({
+        item,
+        text
+      });
+      this.editing = false;
+    },
+    openModal(item) {
+      this.modalData = item;
+      this.editedText = this.modalData.text;
+      this.editing = true;
+    },
+    cancelItem() {
+      this.editing = false;
+      this.modalData = "";
     }
   }
 };
