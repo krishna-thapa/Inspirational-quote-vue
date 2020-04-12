@@ -11,3 +11,19 @@ Content-Type: application/json
     "title": "New Post",
     "body": "This is a new Post"
 }
+
+### 
+
+GET https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key=u1m1rcn6yqik1ti4wt0mb7ltqcz2gtp0xnbnacly5l05mgiis
+
+###
+
+GET https://api.wordnik.com/v4/word.json/apple/audio?useCanonical=false&limit=50&api_key=u1m1rcn6yqik1ti4wt0mb7ltqcz2gtp0xnbnacly5l05mgiis
+
+###
+GET https://api.wordnik.com/v4/words.json/randomWord?hasDictionaryDef=true&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=5&maxLength=-1&api_key=YOURAPIKEY
+
+
+###
+
+https://api.wordnik.com/v5/words.json/search/breach?allowRegex=false&caseSensitive=true&minCorpusCount=5&maxCorpusCount=-1&minDictionaryCount=1&maxDictionaryCount=-1&minLength=1&maxLength=-1&limit=10&api_key=u1m1rcn6yqik1ti4wt0mb7ltqcz2gtp0xnbnacly5l05mgiis
