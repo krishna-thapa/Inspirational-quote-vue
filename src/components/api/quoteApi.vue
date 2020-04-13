@@ -1,5 +1,5 @@
 <template>
-  <v-card dark class="full-width mt-12" style="min-height: 250px;">
+  <v-card dark class="full-width mt-12" style="min-height: 100px;">
     <div class="progress-linear-holder absolute">
       <v-progress-linear v-show="loader" :indeterminate="true"></v-progress-linear>
     </div>

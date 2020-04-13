@@ -6,6 +6,7 @@ const routerOptions = [
   { path: "/apiDemo", component: "api/apiExamples" },
   { path: "/signAccount", component: "auth/SignAccount" },
   { path: "/todo", component: "todo/TodoList" },
+  { path: "/draw", component: "canvas/Canvas" },
   { path: "*", component: "NotFound" }
 ];
 

@@ -1,6 +1,6 @@
 <template>
   <v-card class="mx-auto mt-12" max-width="600">
-    <v-toolbar color="indigo" dark>
+    <v-toolbar color="blue accent-4" dark>
       <v-icon class="mr-4" large>fa-notes-medical</v-icon>
       <v-toolbar-title style="font-size: 2rem;">TODO Lists</v-toolbar-title>
       <v-spacer></v-spacer>

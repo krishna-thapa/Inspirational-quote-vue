@@ -1,29 +1,30 @@
 <template>
-  <v-card>
+  <v-card dark class="full-width mt-2" style="min-height: 100px;">
     <div class="progress-linear-holder absolute">
       <v-progress-linear v-show="loader" :indeterminate="true"></v-progress-linear>
     </div>
     <div>
       <transition name="fade">
         <v-img
-          class="white--text"
+          class="black--text"
           :src="imgSource"
-          gradient="to bottom, rgba(0,0,0,.1), rgba(0,0,0,.5)"
+          gradient="to bottom, rgba(0,0,0,.05), rgba(0,0,0,.2)"
           :aspect-ratio="16 / 3"
         >
-          <v-card-title class="headline" dark>Word of the Day</v-card-title>
-          <v-card-text lass="white--text">
-            <p class="display-1 text--primary">
-              {{ wod.word }}
+          <v-card-title primary-title class="justify-center">
+            <h1 class="word-of-day">
+              {{ wod.word | capitalize }}
               <v-btn text icon color="primary" @click="getWordAudio()">
                 <v-icon large>volume_up</v-icon>
               </v-btn>
-            </p>
-            <p>{{ wod.partOfSpeech }}</p>
-            <div class="text--primary">{{ wod.defination }}</div>
-            <div v-for="example in wod.examples" :key="example.id">
-              <p>{{ example.text }}</p>
-            </div>
+            </h1>
+          </v-card-title>
+          <v-card-subtitle class="text-center black--text">
+            <i>{{ wod.partOfSpeech }}</i> | Pro-noun
+          </v-card-subtitle>
+          <v-card-text class="text-center">
+            <div class="text--primary full-width">Meaning: {{ wod.defination }}</div>
+            <div class="mt-3" v-for="example in wod.examples" :key="example.id">{{ example.text }}</div>
           </v-card-text>
           <v-card-actions>
             <v-list-item class="grow">
@@ -72,8 +73,8 @@ export default {
     baseUrl: "https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key=",
     audioUrl1: "https://api.wordnik.com/v4/word.json/",
     audioUrl2: "/audio?useCanonical=false&limit=50&api_key=",
-    APIKEY: "",
-    imgSource: require("@/assets/pictures/Phewa_lake.jpg")
+    APIKEY: "u1m1rcn6yqik1ti4wt0mb7ltqcz2gtp0xnbnacly5l05mgiis",
+    imgSource: require("@/assets/pictures/white_bg.jpg")
   }),
   methods: {
     getWOD() {
@@ -85,7 +86,7 @@ export default {
             word: response.body.word,
             defination: response.body.definitions[0].text,
             partOfSpeech: response.body.definitions[0].partOfSpeech,
-            examples: response.body.examples
+            examples: response.body.examples.slice(0, 2)
           };
           this.loader = false;
         })
@@ -99,7 +100,7 @@ export default {
       this.audioUrl = "";
       this.loader = true;
       this.$http
-        .get(this.audioUrl1 + "banfana" + this.audioUrl2 + this.APIKEY)
+        .get(this.audioUrl1 + this.wod.word + this.audioUrl2 + this.APIKEY)
         .then(
           response => {
             this.audioWord = response.body[0].fileUrl;
@@ -133,8 +134,24 @@ export default {
   },
   created() {
     this.getWOD();
+  },
+  filters: {
+    capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }
   }
 };
 </script>
+
 <style>
+.word-of-day {
+  font-size: 5.25em;
+  letter-spacing: 0.03em;
+  line-height: 0.9em;
+  display: inline-block;
+  font-weight: 300;
+  font-family: "Playfair Display", serif;
+  text-align: center;
+  height: 100px;
+}
 </style>

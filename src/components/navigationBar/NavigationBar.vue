@@ -26,7 +26,7 @@
           <v-btn icon v-for="item in menuItems" :key="item.title" :to="item.path" class="mx-2">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon dark v-on="on">{{ item.icon }}</v-icon>
+                <v-icon v-on="on" color="blue accent-4">{{ item.icon }}</v-icon>
               </template>
               <span>{{ item.title }}</span>
             </v-tooltip>
@@ -54,7 +54,6 @@
           <v-list-item-icon>
             <v-icon>{{ item.icon }}</v-icon>
           </v-list-item-icon>
-
           <v-list-item-content>
             <v-list-item-title>{{ item.title }}</v-list-item-title>
           </v-list-item-content>
@@ -74,7 +73,7 @@ export default {
       sidebar: false,
       menuItems: [
         { title: "Home", path: "/apiDemo/dictionaryApi", icon: "home" },
-        { title: "Search", path: "/search", icon: "mdi-magnify" },
+        { title: "Draw", path: "/draw", icon: "mdi-drawing-box" },
         { title: "Sign Up", path: "/signAccount", icon: "face" },
         { title: "To-Do List", path: "/todo", icon: "fa-list-ul" }
       ],
