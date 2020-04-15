@@ -73,7 +73,7 @@ export default {
     baseUrl: "https://api.wordnik.com/v4/words.json/wordOfTheDay?api_key=",
     audioUrl1: "https://api.wordnik.com/v4/word.json/",
     audioUrl2: "/audio?useCanonical=false&limit=50&api_key=",
-    APIKEY: "",
+    APIKEY: process.env.VUE_APP_WORDNIK_API,
     imgSource: require("@/assets/pictures/white_bg.jpg")
   }),
   methods: {

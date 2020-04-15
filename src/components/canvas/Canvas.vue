@@ -1,12 +1,18 @@
 <template>
   <v-row>
     <v-col cols="12" align="center" justify="center">
-      <v-sheet max-width="1000" elevation="4" tile class="mt-8">
+      <v-sheet
+        max-width="1000"
+        min-height="600"
+        elevation="4"
+        tile
+        class="mt-8"
+      >
         <div class="head-line pt-4">Draw some pixel art</div>
         <v-row>
-          <v-col>
-            <div class="pixel-painter mt-2">
-              <div class="canvas">
+          <v-col class="ml-6">
+            <div class="pixel-painter mt-4">
+              <div class="canvas" ref="canvas">
                 <button
                   v-on:touchmove="mouseOver(i)"
                   v-on:touchstart="mouseDown(i, true)"
@@ -20,21 +26,29 @@
                   class="pixel"
                 ></button>
               </div>
-              <div class="tools">
+            </div>
+          </v-col>
+          <v-col>
+            <v-row justify="space-around" class="order-md10">
+              <v-color-picker
+                v-model="colors"
+                class="mt-4 mr-12"
+              ></v-color-picker>
+            </v-row>
+            <v-row>
+              <div class="mt-10">
                 <button
                   v-for="(btn, i) in buttons"
                   :key="i"
                   v-bind:style="{ backgroundColor: btn.color }"
-                  v-bind:class="{ active : btn.active }"
+                  v-bind:class="{ active: btn.active }"
                   v-bind:data-fn="btn.fn"
                   v-on:click="clickBtn(btn.fn, btn.color, i)"
-                  class="btn"
-                >{{btn.fn}}</button>
+                >
+                  {{ btn.fn }}
+                </button>
               </div>
-            </div>
-          </v-col>
-          <v-col cols="4">
-            <v-color-picker v-model="colors" class="mt-2 mr-12"></v-color-picker>
+            </v-row>
           </v-col>
         </v-row>
       </v-sheet>
@@ -44,20 +58,20 @@
 
 <script>
 //import Demo from "./demo.vue";
+import domtoimage from "dom-to-image";
+import download from "downloadjs";
 
 export default {
   data: () => ({
     colors: {},
     w: 25,
     h: 25,
-    default_color: "transparent",
-    selected_color: "red",
     pixels: [],
     buttons: [
       { fn: "eraser", color: "pink", active: false },
       { fn: "clear", color: "red", active: false },
-      { fn: "save", color: "red", active: false }
-    ]
+      { fn: "save", color: "red", active: false },
+    ],
   }),
   methods: {
     init: function() {
@@ -66,7 +80,7 @@ export default {
     resetCanvas: function() {
       var new_pixels = [];
       for (var i = 0; i < this.w * this.h; i++) {
-        new_pixels.push(this.default_color);
+        new_pixels.push(this.colors.hex);
       }
       this.pixels = new_pixels;
     },
@@ -75,24 +89,21 @@ export default {
       var req = {
         w: this.w,
         h: this.h,
-        pixels: this.pixels
+        pixels: this.pixels,
       };
       console.log(req);
     },
 
-    clickBtn: function(fn, color) {
+    clickBtn: function(fn) {
       switch (fn) {
-        case "color":
-          this.selected_color = color;
-          break;
         case "eraser":
-          this.selected_color = "transparent";
+          this.colors.hex = "transparent";
           break;
         case "clear":
           this.resetCanvas();
           break;
         case "save":
-          this.saveCanvas();
+          this.getImage();
           break;
       }
     },
@@ -105,7 +116,20 @@ export default {
       if (this.drawing) {
         this.$set(this.pixels, i, this.colors.hex);
       }
-    }
+    },
+
+    getImage() {
+      try {
+        setTimeout(async () => {
+          const refs = this.$refs;
+          const drawGrid = refs.canvas;
+          const file = await domtoimage.toBlob(drawGrid);
+          download(file, "vue-pixel-art.png", "image/png");
+        });
+      } catch (error) {
+        console.error("oops, something went wrong!", error);
+      }
+    },
   },
 
   components: {
@@ -113,7 +137,7 @@ export default {
   },
   created() {
     this.init();
-  }
+  },
 };
 </script>
 
@@ -130,8 +154,8 @@ export default {
   color: #0091ea;
 }
 .my-canvas {
-  width: 500px;
-  height: 500px;
+  max-width: 500px;
+  max-height: 500px;
   border: 1px #000 solid;
   background-color: lightgrey;
   display: -webkit-box;
@@ -165,15 +189,5 @@ export default {
 }
 .pixel-painter .canvas .pixel:hover:after {
   opacity: 1;
-}
-.pixel-painter .tools .btn {
-  all: unset;
-  width: 66px;
-  height: 66px;
-  border: 1px solid white;
-  margin: 10px -1px;
-  position: relative;
-  text-align: center;
-  color: white;
 }
 </style>
