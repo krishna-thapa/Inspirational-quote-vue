@@ -1,13 +1,7 @@
 <template>
   <v-row>
     <v-col cols="12" align="center" justify="center">
-      <v-sheet
-        max-width="1000"
-        min-height="600"
-        elevation="4"
-        tile
-        class="mt-8"
-      >
+      <v-sheet max-width="1000" min-height="600" elevation="4" tile class="mt-8">
         <div class="head-line pt-4">Draw some pixel art</div>
         <v-row>
           <v-col class="ml-6">
@@ -30,24 +24,36 @@
           </v-col>
           <v-col>
             <v-row justify="space-around" class="order-md10">
-              <v-color-picker
-                v-model="colors"
-                class="mt-4 mr-12"
-              ></v-color-picker>
+              <v-color-picker v-model="colors" class="mt-4 mr-12"></v-color-picker>
             </v-row>
-            <v-row>
-              <div class="mt-10">
-                <button
-                  v-for="(btn, i) in buttons"
-                  :key="i"
-                  v-bind:style="{ backgroundColor: btn.color }"
-                  v-bind:class="{ active: btn.active }"
-                  v-bind:data-fn="btn.fn"
-                  v-on:click="clickBtn(btn.fn, btn.color, i)"
+            <v-row class="ml-7">
+              <div class="mt-10 ml-6">
+                <v-btn :color="colors.hex" class="mr-4" v-on:click="current" rounded></v-btn>
+                <v-btn
+                  icon
+                  v-for="btn in buttons"
+                  :key="btn.fn"
+                  class="mx-4"
+                  v-on:click="clickBtn(btn.fn)"
                 >
-                  {{ btn.fn }}
-                </button>
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon dark x-large v-on="on" :color="btn.color">{{ btn.icon }}</v-icon>
+                    </template>
+                    <span>{{ btn.fn | capitalize }}</span>
+                  </v-tooltip>
+                </v-btn>
               </div>
+            </v-row>
+            <v-row style="width: 11em">
+              <v-progress-linear
+                color="light-blue accent-4"
+                indeterminate
+                rounded
+                height="6"
+                class="mt-5"
+                v-show="loader"
+              ></v-progress-linear>
             </v-row>
           </v-col>
         </v-row>
@@ -57,21 +63,23 @@
 </template>
 
 <script>
-//import Demo from "./demo.vue";
 import domtoimage from "dom-to-image";
 import download from "downloadjs";
 
 export default {
   data: () => ({
     colors: {},
+    eraserFlag: false,
+    loader: false,
     w: 25,
     h: 25,
+    transparent: "transparent",
     pixels: [],
     buttons: [
-      { fn: "eraser", color: "pink", active: false },
-      { fn: "clear", color: "red", active: false },
-      { fn: "save", color: "red", active: false },
-    ],
+      { fn: "eraser", icon: "mdi-eraser", color: "light-blue accent-4" },
+      { fn: "clear", icon: "delete_sweep", color: "red" },
+      { fn: "save", icon: "mdi-content-save", color: "light-blue accent-4" }
+    ]
   }),
   methods: {
     init: function() {
@@ -80,30 +88,26 @@ export default {
     resetCanvas: function() {
       var new_pixels = [];
       for (var i = 0; i < this.w * this.h; i++) {
-        new_pixels.push(this.colors.hex);
+        new_pixels.push(this.transparent);
       }
       this.pixels = new_pixels;
+      this.eraserFlag = false;
     },
 
-    saveCanvas: function() {
-      var req = {
-        w: this.w,
-        h: this.h,
-        pixels: this.pixels,
-      };
-      console.log(req);
+    current() {
+      this.eraserFlag = false;
     },
 
     clickBtn: function(fn) {
       switch (fn) {
         case "eraser":
-          this.colors.hex = "transparent";
+          this.eraserFlag = true;
           break;
         case "clear":
           this.resetCanvas();
           break;
         case "save":
-          this.getImage();
+          this.saveImage();
           break;
       }
     },
@@ -114,30 +118,39 @@ export default {
     },
     mouseOver: function(i) {
       if (this.drawing) {
-        this.$set(this.pixels, i, this.colors.hex);
+        if (this.eraserFlag) {
+          this.$set(this.pixels, i, this.transparent);
+        } else {
+          this.$set(this.pixels, i, this.colors.hex);
+        }
       }
     },
 
-    getImage() {
+    saveImage() {
+      this.loader = true;
+
       try {
         setTimeout(async () => {
           const refs = this.$refs;
           const drawGrid = refs.canvas;
           const file = await domtoimage.toBlob(drawGrid);
           download(file, "vue-pixel-art.png", "image/png");
+          this.loader = false;
         });
       } catch (error) {
+        this.loader = false;
         console.error("oops, something went wrong!", error);
       }
-    },
+    }
   },
-
-  components: {
-    //Demo
+  filters: {
+    capitalize(word) {
+      return word.charAt(0).toUpperCase() + word.slice(1);
+    }
   },
   created() {
     this.init();
-  },
+  }
 };
 </script>
 

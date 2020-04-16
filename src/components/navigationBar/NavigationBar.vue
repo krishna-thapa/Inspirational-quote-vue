@@ -26,7 +26,7 @@
           <v-btn icon v-for="item in menuItems" :key="item.title" :to="item.path" class="mx-2">
             <v-tooltip bottom>
               <template v-slot:activator="{ on }">
-                <v-icon v-on="on" color="blue accent-4">{{ item.icon }}</v-icon>
+                <v-icon v-on="on" color="light-blue accent-4">{{ item.icon }}</v-icon>
               </template>
               <span>{{ item.title }}</span>
             </v-tooltip>
