@@ -57,6 +57,35 @@
             </v-row>
           </v-col>
         </v-row>
+        <v-dialog persistent v-model="saveImageDialog" max-width="400">
+          <v-card>
+            <v-card-title>Give a name for an art:</v-card-title>
+            <v-card-text>
+              <v-text-field
+                v-model="imageName"
+                clearable
+                color="primary"
+                label="File Name"
+                @input="$v.imageName.$touch()"
+              ></v-text-field>
+            </v-card-text>
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="cyan" @click="saveImageDialog = false">Cancel</v-btn>
+              <v-btn
+                color="cyan"
+                @click="checkBeforeSaveImage"
+                :disabled="!$v.imageName.required"
+              >Save</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-dialog>
+        <div class="text-center ma-2">
+          <v-snackbar color="error" v-model="snackbar">
+            {{ errorMessage }}
+            <v-btn dark text @click.native="snackbar = false">Close</v-btn>
+          </v-snackbar>
+        </div>
       </v-sheet>
     </v-col>
   </v-row>
@@ -65,12 +94,17 @@
 <script>
 import domtoimage from "dom-to-image";
 import download from "downloadjs";
+import { required } from "vuelidate/lib/validators";
 
 export default {
   data: () => ({
     colors: {},
     eraserFlag: false,
     loader: false,
+    snackbar: false,
+    saveImageDialog: false,
+    imageName: "",
+    errorMessage: "",
     w: 25,
     h: 25,
     transparent: "transparent",
@@ -81,10 +115,20 @@ export default {
       { fn: "save", icon: "mdi-content-save", color: "light-blue accent-4" }
     ]
   }),
+
+  // validation use for this component
+  validations: {
+    imageName: {
+      required
+    }
+  },
+
   methods: {
     init: function() {
       this.resetCanvas();
     },
+
+    // Reset canvas everytime or with icon clear icon button
     resetCanvas: function() {
       var new_pixels = [];
       for (var i = 0; i < this.w * this.h; i++) {
@@ -98,6 +142,7 @@ export default {
       this.eraserFlag = false;
     },
 
+    // funtions for each of the icon
     clickBtn: function(fn) {
       switch (fn) {
         case "eraser":
@@ -107,11 +152,12 @@ export default {
           this.resetCanvas();
           break;
         case "save":
-          this.saveImage();
+          this.checkImage();
           break;
       }
     },
 
+    // methods to check when the mouse button is clicked and lifted to draw pixel
     mouseDown: function(i, tf) {
       this.drawing = tf;
       if (tf) this.mouseOver(i);
@@ -126,16 +172,37 @@ export default {
       }
     },
 
-    saveImage() {
-      this.loader = true;
+    // check if the user is trying to save empty image
+    checkImage() {
+      var setPiels = [...new Set(this.pixels)];
+      if (setPiels.length == 1 && setPiels.includes(this.transparent)) {
+        this.errorMessage = "Image is empty, please draw some pixel art!";
+        this.snackbar = true;
+      } else {
+        this.errorMessage = "";
+        this.saveImageDialog = true;
+      }
+    },
 
+    // check for validation in the file name
+    checkBeforeSaveImage() {
+      this.$v.$touch();
+      this.saveImage();
+    },
+
+    // Save the Dom pixel art to image and save in download folder
+    saveImage() {
+      this.saveImageDialog = false;
+      this.loader = true;
+      let fileName = this.imageName + ".png";
       try {
         setTimeout(async () => {
           const refs = this.$refs;
           const drawGrid = refs.canvas;
           const file = await domtoimage.toBlob(drawGrid);
-          download(file, "vue-pixel-art.png", "image/png");
+          download(file, fileName, "image/png");
           this.loader = false;
+          this.imageName = "";
         });
       } catch (error) {
         this.loader = false;
@@ -143,11 +210,15 @@ export default {
       }
     }
   },
+
+  // Filter to capitalize words for buttons
   filters: {
     capitalize(word) {
       return word.charAt(0).toUpperCase() + word.slice(1);
     }
   },
+
+  // Run reset canvas function every time page is loaded
   created() {
     this.init();
   }
