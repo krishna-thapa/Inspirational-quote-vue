@@ -1,6 +1,6 @@
 # This is a basic workflow to help you get started with Actions
 
-name: CI for front-end of inspirational-quote-vue project
+name: CI and CD for inspirational-quote-vue front-end project
 
 # Controls when the action will run. Triggers the workflow on push or pull request
 # events but only for the master branch
@@ -12,9 +12,8 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
+  # This workflow contains a single job called "build and publish"
   build-and-publish:
-    # The type of runner that the job will run on
     name: build and publish
     runs-on: ubuntu-latest
 
@@ -23,12 +22,14 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@master
 
+      # Use the latest node to run npm install and test on vuejs project
       - name: npm install and test
         uses: actions/setup-node@master
       - run: npm install
       - run: npm test
 
-      - name: Build and publish to docker hub
+      # Build and publish the docker image in docker-hub
+      - name: Build and publish docker image to docker-hub
         uses: HurricanKai/Publish-Docker-Github-Action@master
         with:
           name: krishnathapa/inspirational-quote-vue
