@@ -13,21 +13,42 @@ on:
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
   # This workflow contains a single job called "build"
-  build:
+  build-and-publish:
     # The type of runner that the job will run on
+    name: build and publish
     runs-on: ubuntu-latest
 
     # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
     # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@master
+    - name: npm install
+      uses: actions/npm@master
+      with:
+        args: install
+    
+    - name: npm test
+      uses: actions/npm@master
+      with:
+        args: run test
 
-    # Runs a single command using the runners shell
-    - name: Run a one-line script
-      run: echo Hello, world!
+    #- name: npm lint
+    #  uses: actions/npm@master
+    #  with:
+    #    args: run lint
 
-    # Runs a set of commands using the runners shell
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+    - name: docker build
+        uses: actions/docker/cli@master
+        with:
+          args: build -t krishnathapa/inspirational-quote-vue .
+
+    - name: docker login
+      uses: actions/docker/login@master
+      env:
+        DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}
+        DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+
+    - name: docker push
+      uses: actions/docker/cli@master
+      with:
+        args: push krishnathapa/inspirational-quote-vue
